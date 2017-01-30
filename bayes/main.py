@@ -3,8 +3,13 @@ from collections import defaultdict
 from typing import Dict
 from typing import List
 
-from janome.tokenizer import Tokenizer as TK
 from janome.tokenizer import Token
+from janome.tokenizer import Tokenizer as TK
+
+# tf-idf
+# tf
+# ある単語の出現回数を、文書中の全単語の単語数で割った値
+
 
 
 class Tokenizer:
@@ -32,13 +37,30 @@ class Tokenizer:
         return result
 
 
-def main():
-    tokenizer = Tokenizer('mydict.csv')
-    for k, v in tokenizer.tokenize("明日、実家に帰ろうと思っているのですが、どうしようか悩んでいます。あと、実家の犬の散歩をするかどうかも悩んでいます。", ['動詞', '名詞']).items():
-        print(k)
-        for token in v:
-            print(token)
 
+
+def tf(sentence: str):
+    tokenizer = Tokenizer()
+    tokens = tokenizer.tokenize(sentence, ['名詞', '動詞'])
+    flatten = flat(tokens)
+    print(len(flatten))
+    for i in flatten:
+        print(i)
+    
+
+def size(dic: Dict[str, Token]):
+    return sum(list(map(lambda x: len(x), dic.values())))
+
+
+def flat(dic: Dict[str, Token]):
+    result = []
+    for v in dic.values():
+        result.extend(v)
+    return result
+
+
+def main():
+    tf('明日、サッカーの試合なのですが、どう考えても相手のほうが強いので、気がめいりますが、サッカーが大好きなので楽しむつもりで試合にのぞもうと思います。')
 
 
 if __name__ == '__main__':

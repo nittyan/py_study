@@ -1,0 +1,6 @@
+mongod --dbpath <PATH>
+
+mongo <dbname>
+show collections
+
+db.<collection_name>.find()
